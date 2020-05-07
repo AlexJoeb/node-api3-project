@@ -19,4 +19,6 @@ function logger(req, res, next) {
     next();
 }
 
-server.listen(5000, () => console.log(`Server started.`));
+const port = process.env.PORT || 5000;
+
+server.listen(port, () => console.log(`Server started.`));
