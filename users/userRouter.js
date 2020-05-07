@@ -49,9 +49,10 @@ router.get('/:id', validateUserId, (req, res) => {
 router.get('/:id/posts', validateUserId, (req, res) => {
   // do your magic!
   const { user } = req;
-
-  posts.getById(user.id)
-  .then(resp => { return res.status(200).json(resp) })
+  posts.get()
+    .then(resp => {
+      return res.status(200).json(resp.filter(post => post.user_id === user.id))
+   })
   .catch(error => { res.status(500).json(error); });
 });
 
@@ -68,9 +69,7 @@ router.delete('/:id', (req, res) => {
 router.put('/:id', validateUserId, (req, res) => {
   // do your magic!
   const { user } = req;
-  return users.update(user.id, {
-    ...req.body
-  })
+  return users.update(user.id, req.body)
   .then(resp => { return res.status(200).json(resp) })
   .catch(error => { res.status(500).json(error); });
 });
